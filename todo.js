@@ -24,52 +24,68 @@ window.addEventListener("load", () => {
   const listElement = document.getElementById("list");
   const adderElement = document.getElementById("adder");
 
-  // creating an array that will hold the todos.
-
-  const todos = [];
-
   // making the button functional with an event-listener.
 
   adderElement.addEventListener("click", addnewTodo);
 
-  // creating a item object that has properties that will be attached to the todos.
-
-  const item = {
-    id: new Date().getTime(),
-    text: "",
-    completed: false,
-  };
-
-  // <!-- <div class="content">
-  // <input type="text" value="todo content." disabled />
-  // <input type="checkbox" />
-  // </div> -->
-
   function addnewTodo() {
     const contentElement = document.createElement("div");
     contentElement.classList.add("content");
-    contentElement.setAttribute("id", new Date().getTime());
 
     // creating an input element that will display the text of a todo.
 
     todoContentText = document.createElement("input");
     todoContentText.type = "text";
-    todoContentText.value = item.text; // item.text attaches the text property to the todo that is created.
-    todoContentText.setAttribute("disabled", ""); // sets the element to disabled so that it's not editable.
+    todoContentText.value = todoContentText.value;
+    todoContentText.setAttribute("disabled", "");
+    todoContentText.setAttribute("id", new Date().getTime());
 
     // creating the checkbox that will be displayed inside the todo.
+
     todoContentCheckbox = document.createElement("input");
     todoContentCheckbox.type = "checkbox";
 
-    // apending the textbox and the checkbox to the div with the class of content.
+    // creating a delete button that will be displayed inside the todo.
 
-    contentElement.append(todoContentText);
-    contentElement.append(todoContentCheckbox);
+    todoContentDeleteButton = document.createElement("button");
+    todoContentDeleteButton.innerText = "delete";
+
+    /* apending the textbox, checkbox and the delete button to the div
+    with the class of content. */
+
+    contentElement.appendChild(todoContentText);
+    contentElement.appendChild(todoContentCheckbox);
+    contentElement.appendChild(todoContentDeleteButton);
 
     // appending the content-div to the todo-list.
 
     todoContentText.removeAttribute("disabled", "");
 
-    listElement.appendChild(contentElement);
+    listElement.prepend(contentElement);
+
+    // i got stuck here on a bug and ended up asking ChatGPT for help.
+
+    // todoContentCheckbox.addEventListener("change", (e) => {
+    //   // e.target.getAttribute("id");
+    //   // if (e.target.id.classList != "complete") {
+    //   //   e.target.classList.add("complete");
+    //   //   e.target.id.setAttribute("disabled", "disabled");
+    //   // } else return;
+    // });
+
+    // This is the code that ChatGPT provided.
+
+    todoContentCheckbox.addEventListener("change", (e) => {
+      const todoContentId = e.target.previousSibling.id;
+      const textInput = document.getElementById(todoContentId);
+
+      if (!e.target.checked) {
+        textInput.classList.remove("complete");
+        textInput.removeAttribute("disabled");
+      } else {
+        textInput.classList.add("complete");
+        textInput.setAttribute("disabled", "");
+      }
+    });
   }
 });
