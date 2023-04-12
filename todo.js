@@ -2,11 +2,10 @@
 
 /*   READ ME. 
  
- I based my application on a guide created by Tyler Potts on youtube.
-
- I have rewritten most of the code in my own way, although i have implemented
-
- some of the lines of code used in the guide directly from the source, which i will cite below where they are located.
+ I based my application on a tutorial created by Tyler Potts on youtube.
+ I have written most of the code in my own way, although i have implemented
+ some of the lines of code used in the guide directly from the source, 
+ which i will cite below where they are located.
  
                  ******** CREDIT *********                                                  
        
