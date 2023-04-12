@@ -48,7 +48,9 @@ window.addEventListener("load", () => {
     // creating a delete button that will be displayed inside the todo.
 
     todoContentDeleteButton = document.createElement("button");
-    todoContentDeleteButton.innerText = "delete";
+    todoContentDeleteButton.classList.add("delete");
+    todoContentDeleteButton.innerText = "delete.";
+    todoContentDeleteButton.setAttribute("id", new Date().getTime());
 
     /* apending the textbox, checkbox and the delete button to the div
     with the class of content. */
@@ -86,6 +88,15 @@ window.addEventListener("load", () => {
         textInput.classList.add("complete");
         textInput.setAttribute("disabled", "");
       }
+    });
+
+    // Modifying the previous lines of code for my delete button.
+
+    todoContentDeleteButton.addEventListener("click", (e) => {
+      const todoContentId = e.target.id;
+      const currentTodo = document.getElementById(todoContentId);
+
+      contentElement.remove(currentTodo);
     });
   }
 });
