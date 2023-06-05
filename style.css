@@ -1,0 +1,111 @@
+body {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  flex-direction: column;
+  min-width: 100%;
+  min-height: 100%;
+  background-color: #363946;
+  font-family: "Arial", sans-serif;
+}
+
+h1 {
+  display: flex;
+  justify-content: center;
+  color: #439a86;
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 400;
+  margin-top: 6rem;
+}
+
+#app {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-top: 4rem;
+}
+
+input[type="text"] {
+  width: 20rem;
+}
+
+#taskInput {
+  appearance: none;
+  outline: none;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  font-size: 1rem;
+  background-color: #ffe0b5;
+  color: #363946;
+}
+
+#taskInput::placeholder {
+  font-size: 1.25rem;
+  opacity: 0.9;
+  color: #363946;
+}
+
+button {
+  background-color: #d16666;
+  appearance: none;
+  outline: none;
+  border: none;
+  border-radius: none;
+  padding: 1rem;
+  margin-left: 0.75rem;
+  border-radius: 0.5rem;
+  transition: 0.1s;
+}
+
+button:hover {
+  scale: 1.085;
+  background-color: #ff1654;
+}
+
+button:active {
+  scale: 0.85;
+}
+
+#app #addTaskBtn {
+  background-color: #439a86;
+}
+
+#app #addTaskBtn:hover {
+  background-color: #37ff8b;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  background-color: #ffe0b5;
+  border: 3px solid transparent;
+  border-radius: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  margin-left: 10rem;
+  margin-right: 10rem;
+}
+
+li,
+text {
+  font-size: 1.25rem;
+  color: #363946;
+}
+
+.completed {
+  text-decoration: line-through;
+}
