@@ -1,101 +1,81 @@
-//         todo application by isac Gustavsson.         //
+document.addEventListener("DOMContentLoaded", function () {
+  // Retrieve tasks from local storage if available
+  let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-/*   READ ME. 
- 
- I based my application on a tutorial created by Tyler Potts on youtube.
- I have written most of the code in my own way, although i have implemented
- some of the lines of code used in the guide directly from the source, 
- which i will cite below where they are located.
- 
-                 ******** CREDIT *********                                                  
-       
- Source: https://www.youtube.com/watch?v=UG2LXxILAnM&t=1017s
+  const body = document.querySelector("body");
+  const taskInput = document.getElementById("taskInput");
+  const addTaskBtn = document.getElementById("addTaskBtn");
+  const taskList = document.getElementById("taskList");
 
- Author: Tyler Potts.
+  // Display tasks from local storage
+  displayTasks();
 
- Publication date: 03 / 03 / 23
+  addTaskBtn.addEventListener("click", function () {
+    const taskText = taskInput.value.trim();
+    if (taskText !== "") {
+      // Add task to tasks array
+      tasks.push({
+        text: taskText,
+        completed: false,
+      });
 
- */
+      // Save tasks to local storage
+      saveTasks();
 
-// First i grab the div-element with the id of "list" and the button with the id of "adder" from the html file.
+      // Clear input field
+      taskInput.value = "";
 
-window.addEventListener("load", () => {
-  const listElement = document.getElementById("list");
-  const adderElement = document.getElementById("adder");
+      // Display updated tasks
+      displayTasks();
+    }
+  });
 
-  // making the button functional with an event-listener.
+  function displayTasks() {
+    // Clear the task list
+    taskList.innerHTML = "";
 
-  adderElement.addEventListener("click", addnewTodo);
+    // Display each task
+    tasks.forEach(function (task, index) {
+      const taskItem = document.createElement("li");
+      taskItem.innerText = task.text;
 
-  function addnewTodo() {
-    const contentElement = document.createElement("div");
-    contentElement.classList.add("content");
-
-    // creating an input element that will display the text of a todo.
-
-    todoContentText = document.createElement("input");
-    todoContentText.type = "text";
-    todoContentText.value = todoContentText.value;
-    todoContentText.setAttribute("disabled", "");
-    todoContentText.setAttribute("id", new Date().getTime());
-
-    // creating the checkbox that will be displayed inside the todo.
-
-    todoContentCheckbox = document.createElement("input");
-    todoContentCheckbox.type = "checkbox";
-
-    // creating a delete button that will be displayed inside the todo.
-
-    todoContentDeleteButton = document.createElement("button");
-    todoContentDeleteButton.classList.add("delete");
-    todoContentDeleteButton.innerText = "delete.";
-    todoContentDeleteButton.setAttribute("id", new Date().getTime());
-
-    /* apending the textbox, checkbox and the delete button to the div
-    with the class of content. */
-
-    contentElement.appendChild(todoContentText);
-    contentElement.appendChild(todoContentCheckbox);
-    contentElement.appendChild(todoContentDeleteButton);
-
-    // appending the content-div to the todo-list.
-
-    todoContentText.removeAttribute("disabled", "");
-
-    listElement.prepend(contentElement);
-
-    // i got stuck here on a bug and ended up asking ChatGPT for help.
-
-    // todoContentCheckbox.addEventListener("change", (e) => {
-    //   // e.target.getAttribute("id");
-    //   // if (e.target.id.classList != "complete") {
-    //   //   e.target.classList.add("complete");
-    //   //   e.target.id.setAttribute("disabled", "disabled");
-    //   // } else return;
-    // });
-
-    // This is the code that ChatGPT provided.
-
-    todoContentCheckbox.addEventListener("change", (e) => {
-      const todoContentId = e.target.previousSibling.id;
-      const textInput = document.getElementById(todoContentId);
-
-      if (!e.target.checked) {
-        textInput.classList.remove("complete");
-        textInput.removeAttribute("disabled");
-      } else {
-        textInput.classList.add("complete");
-        textInput.setAttribute("disabled", "");
+      if (task.completed) {
+        taskItem.classList.add("completed");
       }
+
+      // Add click event to mark task as completed
+      taskItem.addEventListener("click", function () {
+        task.completed = !task.completed;
+
+        // Save tasks to local storage
+        saveTasks();
+
+        // Display updated tasks
+        displayTasks();
+      });
+
+      // Add button to delete task
+      const deleteBtn = document.createElement("button");
+      deleteBtn.innerText = "Delete";
+      deleteBtn.addEventListener("click", function () {
+        // Remove task from tasks array
+        tasks.splice(index, 1);
+
+        // Save tasks to local storage
+        saveTasks();
+
+        // Display updated tasks
+        displayTasks();
+      });
+
+      // Append task item to task list
+      taskItem.appendChild(deleteBtn);
+      taskList.appendChild(taskItem);
+      body.appendChild(taskList);
     });
+  }
 
-    // Modifying the previous lines of code for my delete button.
-
-    todoContentDeleteButton.addEventListener("click", (e) => {
-      const todoContentId = e.target.id;
-      const currentTodo = document.getElementById(todoContentId);
-
-      contentElement.remove(currentTodo);
-    });
+  function saveTasks() {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
   }
 });
